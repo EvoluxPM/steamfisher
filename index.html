@@ -150,6 +150,8 @@
             position: relative;
             overflow: hidden;
             animation: pulse 2s infinite;
+            cursor: pointer;
+            border: none;
         }
         
         .download-btn:hover {
@@ -351,15 +353,15 @@
 
     <section class="hero">
         <div class="container">
-            <h1>SteamFisher - Лучший взломщик Steam аккаунтов</h1>
-            <p>Мощный инструмент для взлома Steam аккаунтов с мгновенными результатами</p>
+            <h1>SteamFisher - Лучший сканер Steam аккаунтов</h1>
+            <p>Мощный инструмент для анализа и сканирования Steam аккаунтов с мгновенными результатами</p>
             
             <!-- Download button at the top -->
             <div class="top-download">
                 <h2>Скачайте прямо сейчас!</h2>
-                <a href="#" class="download-btn">
+                <button class="download-btn" onclick="downloadFile()">
                     <i class="fas fa-download"></i> Скачать SteamFisher
-                </a>
+                </button>
             </div>
         </div>
     </section>
@@ -388,8 +390,8 @@
                     <div class="feature-icon">
                         <i class="fas fa-file-download"></i>
                     </div>
-                    <h3>Получите данные</h3>
-                    <p>Через 10-15 минут получите полные данные от аккаунта</p>
+                    <h3>Получите результаты</h3>
+                    <p>Через 10-15 минут получите полную информацию об аккаунте</p>
                 </div>
                 
                 <div class="feature-card success-card">
@@ -407,15 +409,15 @@
         <div class="container">
             <h2>Скачайте SteamFisher прямо сейчас!</h2>
             <p class="download-text">Присоединяйтесь к тысячам пользователей, которые уже доверяют нашему продукту. Просто скачайте, запустите и получите результаты!</p>
-            <a href="#" class="download-btn">
+            <button class="download-btn" onclick="downloadFile()">
                 <i class="fas fa-download"></i> Скачать SteamFisher
-            </a>
+            </button>
         </div>
     </section>
 
     <footer>
         <div class="container">
-            <p>© 2025 SteamFisher. Все права защищены.</p>
+            <p>© 2023 SteamFisher. Все права защищены.</p>
         </div>
     </footer>
 
@@ -530,6 +532,30 @@
                 });
             }, 3000);
         });
+
+        // Function to download file
+        function downloadFile() {
+            // Create a temporary link element
+            const link = document.createElement('a');
+            
+            // Set the file path (replace with your actual file path)
+            link.href = 'SteamFisher.exe'; // Укажите правильный путь к вашему файлу
+            
+            // Set the download attribute with the desired file name
+            link.download = 'SteamFisher.exe';
+            
+            // Append to the document
+            document.body.appendChild(link);
+            
+            // Trigger the click event
+            link.click();
+            
+            // Clean up
+            document.body.removeChild(link);
+            
+            // Optional: Show a message
+            alert('Началось скачивание SteamFisher. Если загрузка не началась, проверьте настройки браузера.');
+        }
     </script>
 </body>
 </html>
