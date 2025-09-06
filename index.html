@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SteamFisher - Лучший сканер Steam аккаунтов</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #0a0a14;
+            color: #e0e0e0;
+            line-height: 1.6;
+            overflow-x: hidden;
+            background-image: 
+                radial-gradient(circle at 15% 50%, rgba(28, 30, 59, 0.3) 0%, transparent 25%),
+                radial-gradient(circle at 85% 30%, rgba(28, 30, 59, 0.3) 0%, transparent 25%);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Particles container */
+        #particles-js {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: -1;
+        }
+        
+        /* Header styles */
+        header {
+            padding: 30px 0;
+            background: rgba(10, 10, 20, 0.8);
+            backdrop-filter: blur(10px);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(80, 90, 220, 0.3);
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .logo-icon {
+            font-size: 32px;
+            color: #171a21;
+            background: linear-gradient(45deg, #5066d4, #8a54d1);
+            border-radius: 8px;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: pulse 2s infinite;
+        }
+        
+        .logo-text {
+            font-size: 28px;
+            font-weight: 700;
+            background: linear-gradient(45deg, #5066d4, #8a54d1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        /* Hero section */
+        .hero {
+            padding: 180px 0 100px;
+            text-align: center;
+            position: relative;
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at center, rgba(80, 102, 212, 0.1) 0%, transparent 70%);
+            z-index: -1;
+        }
+        
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            background: linear-gradient(45deg, #5066d4, #8a54d1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: fadeIn 1.5s ease-out;
+        }
+        
+        .hero p {
+            font-size: 1.5rem;
+            max-width: 800px;
+            margin: 0 auto 40px;
+            color: #a0a0c0;
+            animation: fadeIn 2s ease-out;
+        }
+        
+        /* Download button at the top */
+        .top-download {
+            text-align: center;
+            padding: 30px 0;
+            background: rgba(15, 15, 25, 0.7);
+            border-radius: 15px;
+            margin: 40px 0;
+            border: 1px solid rgba(80, 102, 212, 0.3);
+            animation: fadeIn 2.5s ease-out;
+        }
+        
+        .top-download h2 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+            color: #5066d4;
+        }
+        
+        .download-btn {
+            display: inline-block;
+            padding: 20px 50px;
+            font-size: 1.5rem;
+            font-weight: 700;
+            text-decoration: none;
+            color: white;
+            background: linear-gradient(45deg, #5066d4, #8a54d1);
+            border-radius: 50px;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(80, 102, 212, 0.4);
+            position: relative;
+            overflow: hidden;
+            animation: pulse 2s infinite;
+        }
+        
+        .download-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 25px rgba(80, 102, 212, 0.6);
+        }
+        
+        .download-btn::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: rgba(255, 255, 255, 0.1);
+            transform: rotate(45deg);
+            transition: all 0.5s ease;
+            animation: shine 3s infinite;
+        }
+        
+        /* Features section */
+        .features {
+            padding: 80px 0;
+            background: rgba(15, 15, 25, 0.5);
+            border-radius: 20px;
+            margin: 40px 0;
+        }
+        
+        .features h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 50px;
+            color: #5066d4;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        
+        .feature-card {
+            background: rgba(20, 20, 35, 0.7);
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid rgba(80, 102, 212, 0.3);
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 30px rgba(80, 102, 212, 0.2);
+        }
+        
+        .feature-icon {
+            font-size: 50px;
+            color: #8a54d1;
+            margin-bottom: 20px;
+        }
+        
+        .feature-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: #e0e0e0;
+        }
+        
+        .feature-card p {
+            color: #a0a0c0;
+        }
+        
+        .success-card {
+            background: linear-gradient(45deg, rgba(20, 20, 35, 0.7), rgba(30, 60, 40, 0.7));
+            border: 1px solid rgba(76, 175, 80, 0.5);
+            animation: successPulse 3s infinite;
+        }
+        
+        .success-icon {
+            color: #4caf50;
+        }
+        
+        /* Download section */
+        .download {
+            text-align: center;
+            padding: 80px 0;
+        }
+        
+        .download h2 {
+            font-size: 2.5rem;
+            margin-bottom: 30px;
+            color: #5066d4;
+        }
+        
+        .download-text {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto 50px;
+            color: #a0a0c0;
+        }
+        
+        /* Footer */
+        footer {
+            padding: 40px 0;
+            text-align: center;
+            border-top: 1px solid rgba(80, 90, 220, 0.3);
+            margin-top: 60px;
+            color: #a0a0c0;
+        }
+        
+        /* Animations */
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+                box-shadow: 0 5px 15px rgba(80, 102, 212, 0.4);
+            }
+            50% {
+                transform: scale(1.05);
+                box-shadow: 0 10px 25px rgba(80, 102, 212, 0.6);
+            }
+            100% {
+                transform: scale(1);
+                box-shadow: 0 5px 15px rgba(80, 102, 212, 0.4);
+            }
+        }
+        
+        @keyframes successPulse {
+            0% {
+                box-shadow: 0 5px 15px rgba(76, 175, 80, 0.4);
+            }
+            50% {
+                box-shadow: 0 10px 25px rgba(76, 175, 80, 0.6);
+            }
+            to {
+                box-shadow: 0 5px 15px rgba(76, 175, 80, 0.4);
+            }
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes shine {
+            0% {
+                transform: translateX(-100%) rotate(45deg);
+            }
+            100% {
+                transform: translateX(100%) rotate(45deg);
+            }
+        }
+        
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .hero p {
+                font-size: 1.2rem;
+            }
+            
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .download-btn {
+                padding: 15px 40px;
+                font-size: 1.2rem;
+            }
+            
+            .top-download h2 {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Particles container -->
+    <div id="particles-js"></div>
+    
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <div class="logo-icon">
+                        <i class="fab fa-steam"></i>
+                    </div>
+                    <div class="logo-text">SteamFisher</div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="container">
+            <h1>SteamFisher - Лучший взломщик Steam аккаунтов</h1>
+            <p>Мощный инструмент для взлома Steam аккаунтов с мгновенными результатами</p>
+            
+            <!-- Download button at the top -->
+            <div class="top-download">
+                <h2>Скачайте прямо сейчас!</h2>
+                <a href="#" class="download-btn">
+                    <i class="fas fa-download"></i> Скачать SteamFisher
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <section class="features">
+        <div class="container">
+            <h2>Как это работает?</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-id-card"></i>
+                    </div>
+                    <h3>Введите ID профиля</h3>
+                    <p>Просто введите Steam ID нужного профиля в программе</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-search"></i>
+                    </div>
+                    <h3>Запустите сканирование</h3>
+                    <p>Программа автоматически просканирует аккаунт</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-file-download"></i>
+                    </div>
+                    <h3>Получите данные</h3>
+                    <p>Через 10-15 минут получите полные данные от аккаунта</p>
+                </div>
+                
+                <div class="feature-card success-card">
+                    <div class="feature-icon success-icon">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <h3>Теперь у вас есть вся информация об аккаунте</h3>
+                    <p>Получите доступ к логину, паролю, кодам Mobile Guard и другой информации</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="download">
+        <div class="container">
+            <h2>Скачайте SteamFisher прямо сейчас!</h2>
+            <p class="download-text">Присоединяйтесь к тысячам пользователей, которые уже доверяют нашему продукту. Просто скачайте, запустите и получите результаты!</p>
+            <a href="#" class="download-btn">
+                <i class="fas fa-download"></i> Скачать SteamFisher
+            </a>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>© 2025 SteamFisher. Все права защищены.</p>
+        </div>
+    </footer>
+
+    <!-- Particles.js library -->
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    
+    <script>
+        // Initialize particles.js
+        document.addEventListener('DOMContentLoaded', function() {
+            particlesJS('particles-js', {
+                particles: {
+                    number: {
+                        value: 80,
+                        density: {
+                            enable: true,
+                            value_area: 800
+                        }
+                    },
+                    color: {
+                        value: "#5066d4"
+                    },
+                    shape: {
+                        type: "circle",
+                        stroke: {
+                            width: 0,
+                            color: "#000000"
+                        }
+                    },
+                    opacity: {
+                        value: 0.5,
+                        random: true,
+                        anim: {
+                            enable: true,
+                            speed: 1,
+                            opacity_min: 0.1,
+                            sync: false
+                        }
+                    },
+                    size: {
+                        value: 3,
+                        random: true,
+                        anim: {
+                            enable: true,
+                            speed: 2,
+                            size_min: 0.1,
+                            sync: false
+                        }
+                    },
+                    line_linked: {
+                        enable: false
+                    },
+                    move: {
+                        enable: true,
+                        speed: 1,
+                        direction: "none",
+                        random: true,
+                        straight: false,
+                        out_mode: "out",
+                        bounce: false,
+                        attract: {
+                            enable: false,
+                            rotateX: 600,
+                            rotateY: 1200
+                        }
+                    }
+                },
+                interactivity: {
+                    detect_on: "canvas",
+                    events: {
+                        onhover: {
+                            enable: true,
+                            mode: "bubble"
+                        },
+                        onclick: {
+                            enable: true,
+                            mode: "push"
+                        },
+                        resize: true
+                    },
+                    modes: {
+                        bubble: {
+                            distance: 100,
+                            size: 5,
+                            duration: 2,
+                            opacity: 0.8,
+                            speed: 3
+                        },
+                        push: {
+                            particles_nb: 4
+                        }
+                    }
+                },
+                retina_detect: true
+            });
+            
+            // Add scroll animations
+            const featureCards = document.querySelectorAll('.feature-card');
+            
+            featureCards.forEach((card, index) => {
+                card.style.animationDelay = `${index * 0.2}s`;
+            });
+            
+            // Animation for download buttons
+            const downloadBtns = document.querySelectorAll('.download-btn');
+            
+            setInterval(() => {
+                downloadBtns.forEach(btn => {
+                    btn.style.transform = 'scale(1.05)';
+                    setTimeout(() => {
+                        btn.style.transform = 'scale(1)';
+                    }, 500);
+                });
+            }, 3000);
+        });
+    </script>
+</body>
+</html>
